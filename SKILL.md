@@ -552,6 +552,15 @@ cursor "thoughts/prompts/YYYY-MM-DD_HH-MM_titulo-kebab.md"
 
 Se `cursor` CLI não estiver disponível, usar fallback: `open -a Cursor "<path>"` (macOS) ou `open <path>` (default app).
 
+**REGRA PERMANENTE — sempre abrir o arquivo:**
+Qualquer operação que resulte em criação ou atualização de arquivo em `thoughts/prompts/` deve terminar com `cursor "<path>"`. Isso se aplica a:
+- Geração inicial (Vibe ou Director mode)
+- Regeração de beat isolado (quando usuário reporta falha)
+- Variações (`/seedance variation` no futuro)
+- Qualquer edit/patch em prompt existente
+
+**Nunca** entregue arquivo modificado sem abrir. Mesmo que o usuário não peça explicitamente — abrir é parte do ciclo.
+
 ## Responder ao usuário
 
 Mostre direto no chat:
