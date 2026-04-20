@@ -4,10 +4,20 @@ Gerador de prompts cinematográficos para **Seedance 2.0 / Jimeng / Doubao / Run
 
 Replica o agente `cine-diretor` (padrão Michael Mann / Ridley Scott / Emmanuel Lubezki) do sistema Redpine Prompt, produzindo:
 
-- **JSON em chinês** (≤3500 chars) pronto pra colar em Seedance/Jimeng/Doubao
+- **JSON em chinês** (≤3500 chars) pronto pra colar em Seedance/Jimeng/Doubao/Runway
 - **Tabela PT-BR** de beats com composição em camadas (FG/Subject/BG)
 - **4 arcos narrativos** obrigatórios: cromático, musical, perspectiva, tese visual
 - **Director insight** por beat (sombra que chega antes do sujeito, frame-within-frame, lens flare narrativo, etc)
+- **Auto-open no Cursor** ao finalizar (abre o `.md` gerado direto no editor)
+
+## Dois modos de uso
+
+| Modo | Trigger | Quando usar |
+|------|---------|-------------|
+| **Vibe** | `/seedance vibe` ou `/seedance <briefing>` | Você já sabe o que quer — manda briefing inline e gera direto |
+| **Director** | `/seedance director` | Fluxo guiado passo-a-passo em **15 etapas** (tabelas numeradas com ★ defaults) |
+
+Se digitar só `/seedance` (sozinho), o skill pergunta qual modo. Se passar um briefing parcial junto com o modo (ex: `/seedance director 15s thriller`), ele pré-preenche e só pergunta o que falta.
 
 ---
 
@@ -58,33 +68,59 @@ Se o skill aparecer na lista, tá funcionando.
 
 ## Uso rápido
 
-### Briefing completo em uma linha
+### Modo Vibe — briefing inline (rápido)
+
+```
+/seedance vibe 15s, 21:9, thriller noir, detetive fumando em rua chuvosa inspirado em Michael Mann, arco frio→quente
+```
+
+→ Gera direto sem perguntar. 5 beats default, Mann, color_arc=frio→quente.
+
+### Modo Vibe — briefing parcial
+
+```
+/seedance vibe uma batalha
+```
+
+→ Pergunta em bloco os campos CORE faltantes (duração, formato, mood, descrição).
+
+### Modo Director — guiado passo-a-passo
+
+```
+/seedance director
+```
+
+→ Inicia fluxo de 15 etapas, uma pergunta por vez, com tabelas numeradas:
+
+```
+🎬 PASSO 1/15 — DURAÇÃO
+┌───┬──────────┬─────────────────────────────────┐
+│ # │ Valor    │ Quando usar                     │
+├───┼──────────┼─────────────────────────────────┤
+│ 1 │ 5s       │ Teaser, hook rápido             │
+│ 2 │ 10s ★    │ Padrão — curva narrativa ideal  │
+│ 3 │ 15s      │ Narrativa completa, 7 beats     │
+│ 4 │ Custom   │ Digite: "custom: 8s"            │
+└───┴──────────┴─────────────────────────────────┘
+```
+
+Você responde com o número (ou pressiona Enter pro ★). Ao final: summary card de confirmação → gera prompt → salva `.md` → **abre no Cursor**.
+
+### Modo Director — com pré-preenchimento
+
+```
+/seedance director 15s thriller
+```
+
+→ Detecta que duração e gênero foram dados. Pula esses passos e começa no próximo faltante.
+
+### Escolha de modo
 
 ```
 /seedance
 ```
 
-Depois cole um briefing:
-
-> *"seedance 15s, 21:9, thriller noir, detetive fumando em rua chuvosa inspirado em Michael Mann, arco frio→quente"*
-
-O skill gera direto sem perguntar nada.
-
-### Briefing parcial
-
-```
-/seedance uma batalha
-```
-
-O skill pergunta em bloco os campos CORE faltantes (duração, formato, mood, descrição).
-
-### Briefing ultra simples
-
-```
-/seedance pôr do sol praia
-```
-
-Usa defaults sensatos (10s, 16:9, cinematográfico, sereno) e gera.
+→ Responde com tabela pra você escolher Vibe ou Director.
 
 ---
 
@@ -115,7 +151,9 @@ Usa defaults sensatos (10s, 16:9, cinematográfico, sereno) e gera.
 - 📐 Arco de perspectiva (escalas/ângulos)
 - 💡 Tese visual (o que o filme está dizendo)
 
-**4. Arquivo salvo** automaticamente em `thoughts/prompts/YYYY-MM-DD_HH-MM_titulo.md` do projeto atual.
+**4. Arquivo salvo** automaticamente em `thoughts/prompts/YYYY-MM-DD_HH-MM_titulo.md` do projeto atual — e aberto no Cursor.
+
+**Nota sobre o JSON dentro do `.md`:** o JSON é salvo **em texto corrido (sem crases markdown)** pra você copiar e colar direto no Runway ou outro prompter. No chat, o skill mostra em bloco de código pra legibilidade.
 
 ---
 
